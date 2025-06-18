@@ -65,3 +65,5 @@ switch (day)
         break;
 }
 console.log(day);
+
+// Day 1 Complelt
