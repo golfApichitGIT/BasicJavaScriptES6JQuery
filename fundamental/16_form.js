@@ -9,4 +9,6 @@ document.getElementById("result").innerHTML = "ชื่อ: "+ fullname + "<br>
 
 }
 
+//Complete
+
 
