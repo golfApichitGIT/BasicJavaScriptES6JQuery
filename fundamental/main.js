@@ -65,3 +65,4 @@ switch (day)
         break;
 }
 console.log(day);
+//Day 1
