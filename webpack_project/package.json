@@ -1,0 +1,20 @@
+{
+  "name": "webpack_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode development --entry ./src/js/main.js --output-filename bundle.js --output-path ./dist",
+    "build:prod": "webpack --mode production --entry ./src/js/main.js --output-filename bundle.min.js --output-path ./dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^5.99.9"
+  },
+  "devDependencies": {
+    "webpack-cli": "^6.0.1"
+  }
+}
