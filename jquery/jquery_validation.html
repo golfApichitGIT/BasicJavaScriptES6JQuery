@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jquery Validation</title>
+    <style>
+        .login-error-v{
+            color: red;
+            font-size: 15px;
+        }
+
+        #register{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="showpop">Show form</button>
+
+    <form action="jquery_validation.html" id="register">
+        <div>
+        <label for="">Fullname</label>
+        <input type="text" name="fullname" id="fullname"><br>
+        </div>
+
+        <div>
+        <label for="">Email</label>
+        <input type="text" name="email" id="email"><br>
+        </div>
+
+        <div>
+        <label for="">Tel</label>
+        <input type="mobile" name="tel" id="tel"><br>
+        </div>
+
+        <div>
+        <label for="">ID Card</label>
+        <input type="text" name="idcard" id="idcard"><br>
+        </div>
+
+        <div>
+        <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <script src="jquery-3.7.1.min.js"></script>
+    <script src="jquer-validation/jquery.validate.min.js"></script>
+    <script src="jquer-validation/additional-methods.min.js"></script>
+    <script>
+
+        $(function(){
+            $("button#showpop").click(function(){
+                $('form#register').show();
+            })
+        })
+
+    jQuery.validator.addMethod(
+    "checkIDCard",
+    function(value, element) {
+        var pid = value.toString().replace(/\D/g, "");
+
+        if (pid.length === 13) {
+            var sum = 0;
+            for (var i = 0; i < 12; i++) {
+                sum += Number(pid.charAt(i)) * (13 - i);
+            }
+            var last_digit = (11 - (sum % 11)) % 10;
+            $(element).val(pid);
+            return Number(pid.charAt(12)) === last_digit;
+        } else {
+            return false;
+        }
+    },
+    "รหัสบัตรประชาชนไม่ถูกต้อง"
+);
+
+
+        $("form#register").validate({
+            rules: {
+                fullname:{
+                    required: true
+                },
+                email:{
+                    required: true,
+                    email: true
+                },
+                tel:{
+                    required: true
+                },
+                idcard:{
+                    required: true,
+                    checkIDCard:true
+                }
+            },
+            messages: {
+                fullname:{
+                    required: "จำเป็นต้องป้อนข้อมูล",
+                },
+                email:{
+                    required: "จำเป็นต้องป้อนอีเมลล์",
+                    email: "รูปเเบบอีเมล์ยังไม่ถูกต้อง"
+                },
+                tel:{
+                    required: "จำเป็นต้องป้อนเบอรืโทร",
+                },
+            },
+            errorClass: "login-error-v",
+            errorPlacenment: function(error, element){
+                error.appendTo(element.parent());
+                //error.appendTo('.help-black')
+            },
+            submitHandler: function(form){
+                // $.post('testpost.html',function(data){
+                //     alert(data);
+                // })
+                // $.get('testpost.html',function(data){
+                //     alert(data);
+                // })
+
+                //รับค่าจาก form
+                let fullname = $('#fullname').val();
+                let email = $('#email').val();
+                let tel = $('#tel').val();
+                let idcard = $('#idcard').val();
+
+                alert(fullname+email+tel+idcard)
+
+                $.ajax({
+                    type: "get",
+                    url: "testpost.html",
+                    data: {fullname:fullname, email:email, tel:tel, idcard:idcard},
+                    success: function (response) {
+                        alert(response)
+                    }
+                });
+
+                //Reset form
+                $("form#register").trigger('reset')
+                //Forcus cursor
+                $("#fullname").focus()
+            }
+        })
+    </script>
+
+</body>
+</html>
